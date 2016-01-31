@@ -3,16 +3,18 @@
 var gulp = require('gulp');
 var gulpSequence = require('gulp-sequence');
 var del = require('del');
-var babel = require('gulp-babel');
+var coffee = require('gulp-coffee');
+var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var changed = require('gulp-changed');
+var webpack = require('webpack-stream');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 var SRC = './app/'
 var DEST = './build/';
 
-// single tasks
+// single task
 gulp.task('clean', function(cb){
   return del([
     './build/**/*'
@@ -20,34 +22,32 @@ gulp.task('clean', function(cb){
 });
 
 gulp.task('compile:js', function(){
-  gulp.src(SRC + 'script/**/*.js')
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(gulp.dest(DEST + 'js'));
+  return gulp.src(SRC + 'script/**/*.coffee')
+    .pipe(coffee({bare: true}).on('error', gutil.log))
+    .pipe(gulp.dest(DEST + 'script'));
 });
 
 gulp.task('compile:css', function(){
-  gulp.src(SRC + 'style/**/*.scss')
+  return gulp.src(SRC + 'style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(DEST + 'css'));
+    .pipe(gulp.dest(DEST + 'style'));
 });
 
 gulp.task('copy:tpl', function(){
-  var destPath = DEST + 'tpl'
-  gulp.src(SRC + 'template/**/*.html')
+  var destPath = DEST + 'template'
+  return gulp.src(SRC + 'template/**/*.html')
     .pipe(changed(destPath))
     .pipe(gulp.dest(destPath));
 });
 
 gulp.task('copy:static', function(){
-  gulp.src(SRC + 'static/**/*')
+  return gulp.src(SRC + 'static/**/*')
     .pipe(changed(DEST))
     .pipe(gulp.dest(DEST));
 });
 
 gulp.task('watch:compile', function(){
-  gulp.watch([SRC + 'script/**/*.js', SRC + 'style/**/*.scss'], ['compile'])
+  gulp.watch([SRC + 'script/**/*.coffee', SRC + 'style/**/*.scss'], ['compile'])
     .on('change', function(event){
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks => compile');
     })
@@ -60,15 +60,34 @@ gulp.task('watch:static', function(){
     });
 });
 
+gulp.task('watch:bundle', function(){
+   gulp.watch([
+     DEST + 'style/**/*.css',
+     DEST + 'script/**/*.js',
+     DEST + 'template/**/*.html'
+   ], ['webpack']);
+});
+
 gulp.task('serve', function(){
   browserSync({
     server: {
       baseDir: './build'
     }
   });
-  gulp.watch(['*.html', 'css/**/*.css', 'js/**/*.js', 'tpl/**/*.html'], {cwd: 'app'}, reload);
+  gulp.watch([DEST + '*.html', DEST + 'bundle.js'], reload)
+  .on('change', function(event){
+    console.log('Build file ' + event.path + ' was ' + event.type + ', running tasks => reload');
+  });
 });
 
+gulp.task('webpack', ['compile', 'copy'], function(){
+  return gulp.src(DEST + 'script/main.js')
+    .pipe(webpack(require('./webpack.config.js')))
+    .pipe(gulp.dest(DEST));
+});
+
+// combination tasks
+// TODO:development or production env
 gulp.task('compile', [
   'compile:js',
   'compile:css'
@@ -81,12 +100,14 @@ gulp.task('copy', [
 
 gulp.task('watch', [
   'watch:compile',
-  'watch:static'
+  'watch:static',
+  'watch:bundle'
 ]);
 
 gulp.task('build', gulpSequence(
   'clean',
-  ['compile', 'copy']
+  ['compile', 'copy'],
+  'webpack'
 ));
 
 gulp.task('dev', gulpSequence(
