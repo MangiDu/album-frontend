@@ -1,0 +1,17 @@
+{
+  "name": "album-frontend",
+  "version": "0.0.0",
+  "description": "album frontend",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "album",
+    "frontend"
+  ],
+  "author": "Mangi",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
