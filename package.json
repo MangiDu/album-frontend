@@ -24,6 +24,7 @@
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
     "style-loader": "^0.13.0",
+    "webpack": "^1.12.12",
     "webpack-stream": "^3.1.0"
   },
   "dependencies": {
