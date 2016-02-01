@@ -1,4 +1,8 @@
-'use strict'
+'use strict';
+
+var path = require('path');
+
+var nodeModulesPath = path.join(__dirname, '/node_modules/');
 
 module.exports = {
   output: {
@@ -10,6 +14,9 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.css', '.html']
+    extensions: ['', '.js', '.css', '.html'],
+    alias: {
+      jquery: path.join(nodeModulesPath, 'jquery/dist/jquery')
+    }
   }
 };
