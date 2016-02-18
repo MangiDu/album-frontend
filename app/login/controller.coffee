@@ -1,2 +1,2 @@
-module.exports = ctl = ->
+module.exports = ->
   console.log 'login'
