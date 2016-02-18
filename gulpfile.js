@@ -11,50 +11,51 @@ var webpack = require('webpack-stream');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
-var SRC = './app/'
+var SRC = './app/';
 var DEST = './build/';
+var PUB = './public/';
 
 // single task
 gulp.task('clean', function(cb){
   return del([
-    './build/**/*'
+    './build/**/*',
+    './public/**/*'
   ], cb);
 });
 
 gulp.task('compile:js', function(){
-  return gulp.src(SRC + 'script/**/*.coffee')
+  return gulp.src(SRC + '**/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
-    .pipe(gulp.dest(DEST + 'script'));
+    .pipe(gulp.dest(DEST));
 });
 
 gulp.task('compile:css', function(){
-  return gulp.src(SRC + 'style/**/*.scss')
+  return gulp.src(SRC + '**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(DEST + 'style'));
+    .pipe(gulp.dest(DEST));
 });
 
 gulp.task('copy:tpl', function(){
-  var destPath = DEST + 'template'
-  return gulp.src(SRC + 'template/**/*.html')
-    .pipe(changed(destPath))
-    .pipe(gulp.dest(destPath));
-});
-
-gulp.task('copy:static', function(){
-  return gulp.src(SRC + 'static/**/*')
+  return gulp.src([SRC + '**/*.html', '!'+ SRC + 'static/**/*.html'])
     .pipe(changed(DEST))
     .pipe(gulp.dest(DEST));
 });
 
+gulp.task('copy:static', function(){
+  return gulp.src(SRC + 'static/**/*')
+    .pipe(changed(PUB))
+    .pipe(gulp.dest(PUB));
+});
+
 gulp.task('watch:compile', function(){
-  gulp.watch([SRC + 'script/**/*.coffee', SRC + 'style/**/*.scss'], ['compile'])
+  gulp.watch([SRC + '**/*.coffee', SRC + '**/*.scss'], ['compile'])
     .on('change', function(event){
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks => compile');
     })
 });
 
 gulp.task('watch:static', function(){
-  gulp.watch([SRC + 'template/**/*.html', SRC + 'static/**/*'], ['copy'])
+  gulp.watch([SRC + '**/*.html'], ['copy'])
     .on('change', function(event){
       console.log('Static file ' + event.path + ' was ' + event.type + ', running tasks => copy:static');
     });
@@ -62,32 +63,33 @@ gulp.task('watch:static', function(){
 
 gulp.task('watch:bundle', function(){
    gulp.watch([
-     DEST + 'style/**/*.css',
-     DEST + 'script/**/*.js',
-     DEST + 'template/**/*.html'
+     DEST + '**/*.css',
+     DEST + '**/*.js',
+     DEST + '**/*.html'
    ], ['webpack']);
 });
 
 gulp.task('serve', function(){
   browserSync({
     server: {
-      baseDir: './build'
+      baseDir: PUB
     }
   });
-  gulp.watch([DEST + '*.html', DEST + 'bundle.js'], reload)
+  gulp.watch([PUB + '*.html', PUB + 'bundle.js'], reload)
   .on('change', function(event){
     console.log('Build file ' + event.path + ' was ' + event.type + ', running tasks => reload');
   });
 });
 
 gulp.task('webpack', ['compile', 'copy'], function(){
-  return gulp.src(DEST + 'script/main.js')
+  return gulp.src(DEST + 'main.js')
     .pipe(webpack(require('./webpack.config.js')))
-    .pipe(gulp.dest(DEST));
+    .pipe(gulp.dest(PUB));
 });
 
 // combination tasks
 // TODO:development or production env
+// TODO:watch tasks still need optimization
 gulp.task('compile', [
   'compile:js',
   'compile:css'

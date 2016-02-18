@@ -1,11 +1,19 @@
 'use strict';
 
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   entry: {
-    bundle: './build/script/main.js',
-    vendors: ['jquery', 'bootstrap']
+    bundle: './build/main.js',
+    vendors: [
+      'jquery',
+      'bootstrap',
+      'swig',
+      'underscore',
+      'backbone',
+      'backbone.marionette'
+    ]
   },
   output: {
     filename: '[name].js'
@@ -13,6 +21,7 @@ module.exports = {
   module: {
     loaders: [
       {test: /\.css$/, loader: 'style!css'},
+      {test: /\.html$/, loader: 'html'},
       {
         test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/,
         loader: 'url-loader?importLoaders=1&limit=1000&name=./fonts/[name].[ext]'
@@ -22,14 +31,15 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.css', '.html'],
     alias: {
-      jQuery: 'jquery'
+      jQuery: 'jquery',
+      swig: path.join(__dirname + '/node_modules/swig/dist/swig')
     }
   },
   plugins: [
     new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      "window.jQuery": "jquery"
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
     }),
     new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
   ]
