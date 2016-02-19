@@ -12,7 +12,7 @@ Router = Marionette.AppRouter.extend({
   initialize: ()->
     _.extend @options, {
       appRoutes: _.extend RT, {
-        '*other': 'login'
+        # '*other': 'other'
       }
       controller: _.extend Marionette.Object.extend({}), CTL
     }

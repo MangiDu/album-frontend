@@ -1,2 +1,2 @@
 module.exports = ->
-  console.log 'login'
+  console.log 'login controller'

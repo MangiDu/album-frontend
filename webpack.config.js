@@ -31,7 +31,6 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.css', '.html'],
     alias: {
-      jQuery: 'jquery',
       swig: path.join(__dirname + '/node_modules/swig/dist/swig')
     }
   },

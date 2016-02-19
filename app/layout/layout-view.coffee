@@ -1,14 +1,20 @@
 Marionette = require 'backbone.marionette'
-Swig = swig
+
+HeaderView = require '../header/header-view'
+LoginView = require '../login/login-view'
 
 class LayoutView extends Marionette.LayoutView.extend()
-  template: Swig.compile require './layout'
+  template: swig.compile require './layout'
   regions:
     header: '#header'
     content: '#content'
+  # initialize: (options)->
+  #   unless @userModel
+  #
   render: ->
     super
-    console.log 'layoutView is rendered'
-    # @getRegion('header').show new HeaderView()
+    @getRegion('header').show new HeaderView()
+    unless @userModel
+      @getRegion('content').show new LoginView()
 
 module.exports = LayoutView
