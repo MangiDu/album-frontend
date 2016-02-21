@@ -14,6 +14,8 @@ var reload = browserSync.reload;
 var SRC = './app/';
 var DEST = './build/';
 var PUB = './public/';
+var EPS = './express/';
+var EPS_DEST = './express-build/';
 
 // single task
 gulp.task('clean', function(cb){
@@ -87,6 +89,24 @@ gulp.task('webpack', ['compile', 'copy'], function(){
     .pipe(gulp.dest(PUB));
 });
 
+// express tasks
+gulp.task('clean:express', function(cb){
+  return del([
+    './express-build/**/*'
+  ], cb);
+});
+
+gulp.task('compile:express', ['clean:express'], function(){
+  return gulp.src(EPS + '**/*.coffee')
+    .pipe(coffee({bare: true}).on('error', gutil.log))
+    .pipe(gulp.dest(EPS_DEST));
+});
+
+gulp.task('copy:express', ['clean:express'], function(){
+  return gulp.src(EPS + '**/*.html')
+    .pipe(gulp.dest(EPS_DEST));
+});
+
 // combination tasks
 // TODO:development or production env
 // TODO:watch tasks still need optimization
@@ -117,5 +137,10 @@ gulp.task('dev', gulpSequence(
   'watch',
   'serve')
 );
+
+gulp.task('express', [
+  'compile:express',
+  'copy:express'
+]);
 
 gulp.task('default', ['dev']);

@@ -31,9 +31,17 @@
   "dependencies": {
     "backbone": "^1.2.3",
     "backbone.marionette": "^2.4.4",
+    "body-parser": "^1.15.0",
     "bootstrap": "^3.3.6",
+    "compression": "^1.6.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "jquery": "^2.2.0",
+    "mongoose": "^4.4.4",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0",
     "swig": "^1.4.2",
     "underscore": "^1.8.3"
   }

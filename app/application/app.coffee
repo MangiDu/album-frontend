@@ -9,10 +9,14 @@ class AlbumApp extends Marionette.Application.extend()
   initialize: (opts)->
     @on 'start', ->
       router = new Router()
+      config.router = router
+
+      layoutView = new LayoutView()
+      config.layoutView = layoutView
+
+      @addRegions {app: '#app'}
+      @getRegion('app').show layoutView
+
       Backbone.history.start()
-    layoutView = new LayoutView()
-    @addRegions {app: '#app'}
-    @getRegion('app').show layoutView
-    config.layoutView = layoutView
 
 module.exports = AlbumApp
