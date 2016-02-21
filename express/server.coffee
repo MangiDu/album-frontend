@@ -28,9 +28,6 @@ app.use passport.initialize()
 app.use passport.session()
 
 # setRoutes app
-# app.get('/api/user', (req, res, next)->
-#   res.send({username: 'Danny'})
-# )
 router = express.Router()
 router.get '/', (req, res) ->
   res.render 'login'
@@ -61,6 +58,12 @@ router.get '/signout', (req, res, next) ->
     if err
       return next(err)
     res.redirect '/'
+
+router.get '/api/user', (req, res, next)->
+  if res.user
+    res.send(req.user)
+  else
+    res.status(401).end()
 
 app.use router
 

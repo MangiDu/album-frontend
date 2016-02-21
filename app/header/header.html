@@ -5,6 +5,9 @@
     </div>
     <div class="nav navbar-nav navbar-right">
       <p class="navbar-text">{{ username }}</p>
+      {% if username %}
+      <a class='btn' href="/signout">signout</a>
+      {% endif %}
     </div>
   </div>
 </nav>

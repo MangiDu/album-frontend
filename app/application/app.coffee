@@ -8,15 +8,28 @@ LayoutView = require '../layout/layout-view'
 class AlbumApp extends Marionette.Application.extend()
   initialize: (opts)->
     @on 'start', ->
-      router = new Router()
-      config.router = router
+      me = @
+      $.ajax
+        url: '/api/user'
+        method: 'GET'
+        success: (data)->
+          console.log data
 
-      layoutView = new LayoutView()
-      config.layoutView = layoutView
+          router = new Router()
+          config.router = router
 
-      @addRegions {app: '#app'}
-      @getRegion('app').show layoutView
+          layoutView = new LayoutView
+            userData: data
+          config.layoutView = layoutView
 
-      Backbone.history.start()
+          me.addRegions {app: '#app'}
+          me.getRegion('app').show layoutView
+
+          Backbone.history.start()
+        error: (data)->
+          console.log data
+          # TODO:FIX...
+          # 不使用express而单独用browserysync会死循环额...
+          # window.location.href = '/'
 
 module.exports = AlbumApp

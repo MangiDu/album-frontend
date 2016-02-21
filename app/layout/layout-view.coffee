@@ -11,17 +11,18 @@ class LayoutView extends Marionette.LayoutView.extend()
   regions:
     header: '#header'
     content: '#content'
-  # initialize: (options)->
-  #   # fake data , wait for backend
-  #   unless @userModel
-  #     @userModel = new UserModel
-  #       username: 'Danny'
-  #     console.log @userModel
+  initialize: (options)->
+    # fake data , wait for backend
+    unless @userModel
+      options.userData.id = options.userData._id
+      @userModel = new UserModel options.userData
+      console.log @userModel
 
   render: ->
     super
+    # 要传clone后的model还是同一个model？可能会有同步问题？再想想
     @getRegion('header').show new HeaderView({
-      # model: @userModel.clone()
+      model: @userModel.clone()
     })
 
     # Util.redirectTo('login')
