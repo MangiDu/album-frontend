@@ -8,7 +8,11 @@ passport = require('passport')
 LocalStrategy = require('passport-local').Strategy
 path = require 'path'
 
+fse = require('fs-extra')
+formidable = require('formidable')
+
 Account = require './models/account'
+Photo = require './models/photo'
 connectMongo = require('./connect-mongo')
 
 app = express()
@@ -60,10 +64,33 @@ router.get '/signout', (req, res, next) ->
     res.redirect '/'
 
 router.get '/api/user', (req, res, next)->
-  if res.user
+  if req.user
     res.send(req.user)
   else
     res.status(401).end()
+
+router.post '/upload', (req, res, next)->
+  # 这个路径？相对？绝对？
+  path = './photo-storage'
+  fse.ensureDir path, (err) ->
+    form = new (formidable.IncomingForm)
+    #Formidable uploads to operating systems tmp dir by default
+    form.uploadDir = path
+    #set upload directory
+    form.keepExtensions = true
+    #keep file extension
+    form.parse req, (err, fields, files) ->
+      # TODO: frontend file uploader using jQuery File Upload
+      console.log files.photo.path.replace(/^photo-storage/, '')
+      photo = new Photo(
+        user: req.user._id
+        # title: files.fileUploaded.name
+        description: 'description'
+        location: files.photo.path.replace(/^photo-storage/, ''))
+      photo.save (err) ->
+        if err
+          console.log 'photo save got a mistake'
+        res.json(photo)
 
 app.use router
 

@@ -1,8 +1,38 @@
 <div class="container">
   <div class="toolbar">
-
+    <a class="btn btn-default action-trigger" data-toggle="modal" data-target="#uploadPhoto">上传照片</a>
+    <div class="modal fade" id="uploadPhoto">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">上传照片</h4>
+          </div>
+          <div class="modal-body">
+            <form method='post' action='{{ origin }}/upload' enctype="multipart/form-data">
+              <input type='file' name='photo'>
+              <input type='submit'>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="btn btn-primary action-trigger" data-toggle="modal" data-target="#createAlbum">创建相册</a>
+    <div class="modal fade" id="createAlbum">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">创建相册</h4>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="album-list">
-    
+
   </div>
 </div>

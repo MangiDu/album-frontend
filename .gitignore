@@ -10,3 +10,6 @@ express-build/*
 
 # express static files
 public/*
+
+# uploaded-photos
+photo-storage/*

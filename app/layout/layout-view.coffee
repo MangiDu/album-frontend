@@ -2,7 +2,7 @@ Marionette = require 'backbone.marionette'
 Util = require '../util/util'
 
 HeaderView = require '../header/header-view'
-LoginView = require '../login/login-view'
+HomeView = require '../home/home-view'
 
 UserModel = require '../model/user-model'
 
@@ -12,10 +12,9 @@ class LayoutView extends Marionette.LayoutView.extend()
     header: '#header'
     content: '#content'
   initialize: (options)->
-    # fake data , wait for backend
     unless @userModel
-      options.userData.id = options.userData._id
-      @userModel = new UserModel options.userData
+      userData = options.userData
+      @userModel = new UserModel userData
       console.log @userModel
 
   render: ->
@@ -24,12 +23,8 @@ class LayoutView extends Marionette.LayoutView.extend()
     @getRegion('header').show new HeaderView({
       model: @userModel.clone()
     })
-
-    # Util.redirectTo('login')
-    # unless @userModel
-    #   # @getRegion('content').show new LoginView()
-    #   Util.redirectTo('login')
-    # else
-    #   Util.redirectTo('home')
+    @getRegion('content').show new HomeView({
+      model: @userModel.clone()
+    })
 
 module.exports = LayoutView
