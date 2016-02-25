@@ -1,3 +1,4 @@
+# TODO:拆分代码，server太脏乱差了！
 express = require('express')
 morgan = require('morgan')
 compression = require('compression')
@@ -13,7 +14,10 @@ formidable = require('formidable')
 
 Account = require './models/account'
 Photo = require './models/photo'
+Album = require './models/album'
+
 connectMongo = require('./connect-mongo')
+supportUpload = require './support-fineupload'
 
 app = express()
 
@@ -37,7 +41,9 @@ router.get '/', (req, res) ->
   res.render 'login'
 
 # 为啥不是../public?虽然当下能运行
-app.use('/app', express.static('./public'))
+app.use('/photos', express.static('./photo-storage'))
+app.use('/app', express.static('./app-build'))
+app.use('/', express.static('./public'))
 
 # router.get '/register', (req, res) ->
 #   res.render 'register', {}
@@ -69,30 +75,42 @@ router.get '/api/user', (req, res, next)->
   else
     res.status(401).end()
 
-router.post '/upload', (req, res, next)->
-  # 这个路径？相对？绝对？
-  path = './photo-storage'
-  fse.ensureDir path, (err) ->
-    form = new (formidable.IncomingForm)
-    #Formidable uploads to operating systems tmp dir by default
-    form.uploadDir = path
-    #set upload directory
-    form.keepExtensions = true
-    #keep file extension
-    form.parse req, (err, fields, files) ->
-      # TODO: frontend file uploader using jQuery File Upload
-      console.log files.photo.path.replace(/^photo-storage/, '')
-      photo = new Photo(
-        user: req.user._id
-        # title: files.fileUploaded.name
-        description: 'description'
-        location: files.photo.path.replace(/^photo-storage/, ''))
-      photo.save (err) ->
-        if err
-          console.log 'photo save got a mistake'
-        res.json(photo)
+router.post '/album', (req, res, next)->
+  album = new Album
+    user: req.user._id
+    title: req.body.title
+    description: req.body.description
+  album.save (err)->
+    if err
+      console.log 'album save got a mistake'
+    res.json(album)
+
+# router.post '/upload', (req, res, next)->
+#   # 这个路径？相对？绝对？
+#   path = './photo-storage'
+#   fse.ensureDir path, (err) ->
+#     form = new (formidable.IncomingForm)
+#     #Formidable uploads to operating systems tmp dir by default
+#     form.uploadDir = path
+#     #set upload directory
+#     form.keepExtensions = true
+#     #keep file extension
+#     form.parse req, (err, fields, files) ->
+#       # TODO: frontend file uploader using jQuery File Upload
+#       console.log files.photo.path.replace(/^photo-storage/, '')
+#       photo = new Photo(
+#         user: req.user._id
+#         # title: files.fileUploaded.name
+#         description: 'description'
+#         location: files.photo.path.replace(/^photo-storage/, ''))
+#       photo.save (err) ->
+#         if err
+#           console.log 'photo save got a mistake'
+#         res.json(photo)
 
 app.use router
+
+supportUpload app
 
 Account = require('./models/account')
 passport.use new LocalStrategy(Account.authenticate())
@@ -107,10 +125,3 @@ listen = ->
   )
 
 connectMongo().once('open', listen)
-
-# server = app.listen(3030, ()->
-#   host = server.address().address
-#   port = server.address().port
-#
-#   console.log('Example app listening at http://%s:%s', host, port)
-# )

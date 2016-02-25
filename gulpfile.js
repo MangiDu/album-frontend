@@ -12,16 +12,16 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 var SRC = './app/';
-var DEST = './build/';
-var PUB = './public/';
+var DEST = './compile/';
+var APP_DEST = './app-build/';
 var EPS = './express/';
 var EPS_DEST = './express-build/';
 
 // single task
 gulp.task('clean', function(cb){
   return del([
-    './build/**/*',
-    './public/**/*'
+    './compile/**/*',
+    './app-build/**/*'
   ], cb);
 });
 
@@ -45,8 +45,8 @@ gulp.task('copy:tpl', function(){
 
 gulp.task('copy:static', function(){
   return gulp.src(SRC + 'static/**/*')
-    .pipe(changed(PUB))
-    .pipe(gulp.dest(PUB));
+    .pipe(changed(APP_DEST))
+    .pipe(gulp.dest(APP_DEST));
 });
 
 gulp.task('watch:compile', function(){
@@ -74,10 +74,10 @@ gulp.task('watch:bundle', function(){
 gulp.task('serve', function(){
   browserSync({
     server: {
-      baseDir: PUB
+      baseDir: APP_DEST
     }
   });
-  gulp.watch([PUB + '*.html', PUB + 'bundle.js'], reload)
+  gulp.watch([APP_DEST + '*.html', APP_DEST + 'bundle.js'], reload)
   .on('change', function(event){
     console.log('Build file ' + event.path + ' was ' + event.type + ', running tasks => reload');
   });
@@ -86,13 +86,14 @@ gulp.task('serve', function(){
 gulp.task('webpack', ['compile', 'copy'], function(){
   return gulp.src(DEST + 'main.js')
     .pipe(webpack(require('./webpack.config.js')))
-    .pipe(gulp.dest(PUB));
+    .pipe(gulp.dest(APP_DEST));
 });
 
 // express tasks
 gulp.task('clean:express', function(cb){
   return del([
-    './express-build/**/*'
+    './express-build/**/*',
+    // './public/**/*'
   ], cb);
 });
 

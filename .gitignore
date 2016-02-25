@@ -5,11 +5,13 @@ node_modules/*
 .gulp-scss-cache/*
 
 # compiled files
+compile/*
+app-build/*
 build/*
 express-build/*
 
 # express static files
-public/*
+# public/*
 
 # uploaded-photos
 photo-storage/*

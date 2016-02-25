@@ -5,7 +5,7 @@ var path = require('path');
 
 module.exports = {
   entry: {
-    bundle: './build/main.js',
+    bundle: './compile/main.js',
     vendors: [
       'jquery',
       'bootstrap',
@@ -19,14 +19,19 @@ module.exports = {
     filename: '[name].js'
   },
   module: {
-    loaders: [
-      {test: /\.css$/, loader: 'style!css'},
-      {test: /\.html$/, loader: 'html'},
-      {
-        test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/,
-        loader: 'url-loader?importLoaders=1&limit=1000&name=./fonts/[name].[ext]'
-      },
-    ]
+    loaders: [{
+      test: /\.css$/,
+      loader: 'style!css'
+    }, {
+      test: /\.html$/,
+      loader: 'html'
+    }, {
+      test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+      loader: 'url-loader?importLoaders=1&limit=1000&name=./fonts/[name].[ext]'
+    }, {
+      test: /\.(png|jpeg|gif)$/,
+      loader: 'url-loader?limit=8192',
+    }]
   },
   resolve: {
     extensions: ['', '.js', '.css', '.html'],
