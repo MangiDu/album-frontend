@@ -9,7 +9,6 @@ class HomeView extends Marionette.CompositeView.extend()
 
   serializeData: ->
     data = {}
-    console.log window.location
     data.origin = window.location.origin
     data
 

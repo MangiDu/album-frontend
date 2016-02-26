@@ -1,7 +1,3 @@
-###*
-# NodeJs Server-Side Example for Fine Uploader (traditional endpoints).
-# Maintained by Widen Enterprises.
-#
 # This example:
 #  - handles non-CORS environments
 #  - handles delete file requests assuming the method is DELETE
@@ -9,11 +5,11 @@
 #  - Handles chunked upload requests
 #
 # Requirements:
-#  - express (for handling requests)
 #  - rimraf (for "rm -rf" support)
 #  - multiparty (for parsing request payloads)
 #  - mkdirp (for "mkdir -p" support)
-###
+
+# 是不是需要imagemagick生成thumbnail？
 
 fs = require('fs')
 rimraf = require('rimraf')
@@ -87,7 +83,7 @@ failWithTooBigFile = (responseData, res) ->
 
 onDeleteFile = (req, res) ->
   uuid = req.params.uuid
-  dirToDelete = uploadedFilesPath + uuid
+  dirToDelete = uploadedFilesPath + '/' + uuid
   rimraf dirToDelete, (error) ->
     if error
       console.error 'Problem deleting file! ' + error
@@ -123,21 +119,21 @@ moveFile = (destinationDir, sourceFile, destinationFile, success, failure) ->
   return
 
 moveUploadedFile = (file, uuid, success, failure) ->
-  destinationDir = uploadedFilesPath + uuid + '/'
+  destinationDir = uploadedFilesPath + '/' + uuid + '/'
   fileDestination = destinationDir + file.name
   moveFile destinationDir, file.path, fileDestination, success, failure
   return
 
 storeChunk = (file, uuid, index, numChunks, success, failure) ->
-  destinationDir = uploadedFilesPath + uuid + '/' + chunkDirName + '/'
+  destinationDir = uploadedFilesPath + '/' + uuid + '/' + chunkDirName + '/'
   chunkFilename = getChunkFilename(index, numChunks)
   fileDestination = destinationDir + chunkFilename
   moveFile destinationDir, file.path, fileDestination, success, failure
   return
 
 combineChunks = (file, uuid, success, failure) ->
-  chunksDir = uploadedFilesPath + uuid + '/' + chunkDirName + '/'
-  destinationDir = uploadedFilesPath + uuid + '/'
+  chunksDir = uploadedFilesPath + '/' + uuid + '/' + chunkDirName + '/'
+  destinationDir = uploadedFilesPath + '/' + uuid + '/'
   fileDestination = destinationDir + file.name
   fs.readdir chunksDir, (err, fileNames) ->
     destFileStream = undefined
@@ -183,17 +179,12 @@ multiparty = require('multiparty')
 fileInputName = process.env.FILE_INPUT_NAME or 'qqfile'
 publicDir = process.env.PUBLIC_DIR
 nodeModulesDir = process.env.NODE_MODULES_DIR
-uploadedFilesPath = process.env.UPLOADED_FILES_DIR
+uploadedFilesPath = process.env.UPLOADED_FILES_DIR || './photo-storage'
 chunkDirName = 'chunks'
-port = process.env.SERVER_PORT or 8000
-maxFileSize = process.env.MAX_FILE_SIZE or 0
 
 # in bytes, 0 for unlimited
+maxFileSize = process.env.MAX_FILE_SIZE or 0
 
-# app.use '/node_modules', express.static(nodeModulesDir)
-
-
-module.exports = (app)->
-  # routes
-  app.post '/upload', onUpload
+module.exports = (router)->
+  router.post '/upload', onUpload
   # app.delete '/server/uploads/:uuid', onDeleteFile

@@ -26,8 +26,8 @@ class AlbumApp extends Marionette.Application.extend()
           me.getRegion('app').show layoutView
 
           Backbone.history.start()
-        error: (data)->
-          console.log data
+        error: (err)->
+          console.log err
           # TODO:FIX...
           # 不使用express而单独用browserysync会死循环额...
           # window.location.href = '/'
