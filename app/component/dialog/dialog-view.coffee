@@ -1,47 +1,35 @@
 # basic photoView,uploadView都会继承这个View
 
 Marionette = require 'backbone.marionette'
-_ = require 'underscore'
 
 class DialogView extends Marionette.ItemView.extend()
-  template: swig.compile require './dialog'
+  wrapperTemplate: swig.compile require './dialog-wrapper'
+  # template: swig.compile require './test'
   events:
     'click .action-trigger': 'actionHandler'
 
-  _contentView: null
-
-# initContentView, renderContentView
   initialize: (options)->
     super
-    @initContentView()
     @render()
 
-  serializeData: ->
-    data = super
-    _.defaults data, {
+  render: ->
+    wrapper = @wrapperTemplate {
       modalClassName: 'dialog'
     }
 
-  render: ->
-    super
+    $content = super.$el
+
+    @setElement wrapper
+    @$el.find('.modal-body').append $content
     $(document.body).append @$el
 
-    @$('.modal-body').html @renderContentView()
-
-    @$modal = @$('.modal')
-    @$modal.modal
+    @$el.modal
       backdrop: 'static'
       keyboard: false
       show: false
 
-  initContentView: ->
-    return
-
-  renderContentView: ->
-    return
-
   show: ->
-    @$modal.modal 'show'
+    @$el.modal 'show'
 
   actionHandler: (e)->
     $target = $ e.currentTarget
@@ -51,10 +39,10 @@ class DialogView extends Marionette.ItemView.extend()
         @_hideAndDestroy()
 
   _hideAndDestroy: ->
-    @$modal.modal 'hide'
+    @$el.modal 'hide'
 
     me = @
-    @$modal.on 'hidden.bs.modal', (e)->
+    @$el.on 'hidden.bs.modal', (e)->
       if me._contentView && me._contentView.destroy instanceof Function
         me._contentView.destroy()
       me.destroy()
