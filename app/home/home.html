@@ -1,6 +1,6 @@
 <div class="container">
   <div class="toolbar">
-    <a class="btn btn-default action-trigger" data-toggle="modal" data-target="#uploadPhoto">上传照片</a>
+    <a class="btn btn-default" data-toggle="modal" data-target="#uploadPhoto">上传照片</a>
     <div class="modal fade" id="uploadPhoto">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -9,10 +9,11 @@
             <h4 class="modal-title" id="myModalLabel">上传照片</h4>
           </div>
           <div class="modal-body">
-            <!-- <form method='post' action='{{ origin }}/upload' enctype="multipart/form-data">
-              <input type='file' name='photo'>
-              <input type='submit'>
-            </form> -->
+            <form id="album-uploadTo">
+              <select name="album">
+                <option value="123">123</option>
+              </select>
+            </form>
             <div id="fine-uploader-manual-trigger">
               <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
                 <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -81,7 +82,7 @@
         </div>
       </div>
     </div>
-    <a class="btn btn-primary action-trigger" data-toggle="modal" data-target="#createAlbum">创建相册</a>
+    <a class="btn btn-primary" data-toggle="modal" data-target="#createAlbum">创建相册</a>
     <div class="modal fade" id="createAlbum">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -90,7 +91,11 @@
             <h4 class="modal-title" id="myModalLabel">创建相册</h4>
           </div>
           <div class="modal-body">
-            ...
+            <form>
+              <input name="title" type="text"><br/>
+              <textarea name="description" rows="8" cols="40"></textarea>
+              <a class="btn btn-default action-trigger" href="javascript:;">submit</a>
+            </form>
           </div>
         </div>
       </div>

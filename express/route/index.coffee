@@ -38,6 +38,15 @@ router.get '/api/user', (req, res, next)->
   else
     res.status(401).end()
 
+router.get '/album', (req, res, next)->
+  Album.find({}, (err, docs)->
+    if !err
+      # console.log(docs)
+      res.send docs
+    else
+      console.log(err)
+  )
+
 router.post '/album', (req, res, next)->
   album = new Album
     user: req.user._id

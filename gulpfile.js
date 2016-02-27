@@ -135,8 +135,8 @@ gulp.task('build', gulpSequence(
 
 gulp.task('dev', gulpSequence(
   'build',
-  'watch',
-  'serve')
+  'watch')
+  // 'serve')
 );
 
 gulp.task('express', [

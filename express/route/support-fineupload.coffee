@@ -18,6 +18,10 @@ mkdirp = require('mkdirp')
 onUpload = (req, res) ->
   form = new (multiparty.Form)
   form.parse req, (err, fields, files) ->
+    console.log 'on upload'
+    console.log fields
+    console.log files
+    console.log '==================='
     partIndex = fields.qqpartindex
     # text/plain is required to ensure support for IE9 and older
     res.set 'Content-Type', 'text/plain'
