@@ -2,14 +2,16 @@ Marionette = require 'backbone.marionette'
 AlbumListView = require './album/album-list-view'
 AlbumCollection = require './album/album-collection'
 
-UploadDialogView = require './upload/upload-dialog-view'
+UploadDialogView = require './upload-dialog/upload-dialog-view'
+AlbumtDialogView = require './create-album/create-album-view'
 
 class HomeView extends Marionette.CompositeView.extend()
   # TODO: BaseDialogView
   template: swig.compile require './home'
   events:
     'click .action-trigger': 'actionHandler'
-    'click .js-create-upload': 'createUploadDialog'
+    'click .js-create-upload': 'showUploadDialog'
+    'click .js-create-album': 'showAlbumDialog'
 
   serializeData: ->
     data = {}
@@ -39,10 +41,13 @@ class HomeView extends Marionette.CompositeView.extend()
       error: (err)->
         console.log err
 
-  createUploadDialog: (e)->
-    console.log 'need upload'
-    @uploadDialogView = new UploadDialogView()
-    @uploadDialogView.show()
+  showUploadDialog: (e)->
+    uploadDialogView = new UploadDialogView()
+    uploadDialogView.show()
+
+  showAlbumDialog: (e)->
+    albumDialogView = new AlbumtDialogView()
+    albumDialogView.show()
 
   actionHandler: (e)->
     $target = $ e.currentTarget

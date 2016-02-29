@@ -30,6 +30,6 @@ class AlbumApp extends Marionette.Application.extend()
           console.log err
           # TODO:FIX...
           # 不使用express而单独用browserysync会死循环额...
-          # window.location.href = '/'
+          window.location.href = window.location.origin
 
 module.exports = AlbumApp
