@@ -1,0 +1,11 @@
+.photo-list {
+  .photo-item {
+    display: inline-block;
+    max-width: 200px;
+    text-align: center;
+    overflow: hidden;
+    img {
+      max-width: 200px;
+    }
+  }
+}

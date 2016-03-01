@@ -29,13 +29,14 @@ onUpload = (req, res) ->
     # text/plain is required to ensure support for IE9 and older
     res.set 'Content-Type', 'text/plain'
     onSimpleUpload fields, files[fileInputName][0], res, (destinationDir, fileName)->
+      dest = destinationDir.replace /^./, ''
       responseData = success: true
       photo = new Photo(
         user: req.user._id
         album: targetAlbum
         title: fields.qqfilename
-        url: destinationDir + fileName
-        thumbnail:  destinationDir + PHOTO_PREFIX + fileName
+        url: dest + fileName
+        thumbnail:  dest + PHOTO_PREFIX + fileName
       )
       # 回调地狱!!!
       photo.save (err)->

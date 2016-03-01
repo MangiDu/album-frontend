@@ -1,6 +1,6 @@
 controllersMap = {
   '': './home/controller'
-  'album_detail/:id': './album/controller'
+  'album_detail/:id': './album-detail/controller'
 }
 
 module.exports = controllersMap

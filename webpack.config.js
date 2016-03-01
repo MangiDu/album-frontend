@@ -36,7 +36,8 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.css', '.html'],
     alias: {
-      swig: path.join(__dirname + '/node_modules/swig/dist/swig')
+      swig: path.join(__dirname + '/node_modules/swig/dist/swig'),
+      marionette: 'backbone.marionette'
     }
   },
   plugins: [

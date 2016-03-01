@@ -23,7 +23,7 @@ module.exports = (app)->
   app.use passport.session()
 
   # 为啥不是../public?虽然当下能运行
-  app.use('/photos', express.static('./photo-storage'))
+  app.use('/photo-storage', express.static('./photo-storage'))
   app.use('/app', express.static('./app-build'))
   app.use('/', express.static('./public'))
 

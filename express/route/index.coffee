@@ -53,10 +53,19 @@ router.get '/album', (req, res, next)->
 router.get '/album-brief', (req, res, next)->
   Album.find({user: req.user._id}, '_id title', (err, docs)->
     if !err
-      console.log docs
+      # console.log docs
       res.send docs
     else
       console.log(err)
+  )
+
+router.get '/album-detail', (req, res, next)->
+  Photo.find({user: req.user._id, album: req.query.album}, (err, docs)->
+    if !err
+      # console.log docs
+      res.send docs
+    else
+      console.log err
   )
 
 router.post '/album', (req, res, next)->
