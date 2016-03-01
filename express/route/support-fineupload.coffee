@@ -9,27 +9,45 @@ mkdirp = require('mkdirp')
 imagemagick = require 'imagemagick'
 _ = require 'underscore'
 
+multiparty = require('multiparty')
+fileInputName = process.env.FILE_INPUT_NAME or 'qqfile'
+uploadedFilesPath = process.env.UPLOADED_FILES_DIR || './photo-storage'
+
+# in bytes, 0 for unlimited
+maxFileSize = process.env.MAX_FILE_SIZE or 0
+
 Photo = require '../models/photo'
 PHOTO_PREFIX = 'thumbnail-'
+
+Album = require '../models/album'
 
 onUpload = (req, res) ->
   form = new (multiparty.Form)
   form.parse req, (err, fields, files) ->
     partIndex = fields.qqpartindex
+    targetAlbum = fields.album[0]
     # text/plain is required to ensure support for IE9 and older
     res.set 'Content-Type', 'text/plain'
     onSimpleUpload fields, files[fileInputName][0], res, (destinationDir, fileName)->
       responseData = success: true
       photo = new Photo(
         user: req.user._id
+        album: targetAlbum
         title: fields.qqfilename
         url: destinationDir + fileName
         thumbnail:  destinationDir + PHOTO_PREFIX + fileName
       )
+      # 回调地狱!!!
       photo.save (err)->
         if err
           console.log 'photo save got a mistake'
-        res.send _.extend responseData, {photo: photo}
+
+        Photo.count({album: targetAlbum}, (err, count)->
+          Album.update({_id: targetAlbum}, {photo_amount: count}, (err, raw)->
+            res.send _.extend responseData, {photo: photo}
+          )
+        )
+
     , ->
       responseData = error: 'Problem copying the file!'
       res.send responseData
@@ -103,16 +121,6 @@ moveUploadedFile = (file, uuid, success, failure) ->
   # moveFile destinationDir, file.path, fileDestination, success, failure
   moveFile destinationDir, file.path, file.name[0], success, failure
   return
-
-multiparty = require('multiparty')
-fileInputName = process.env.FILE_INPUT_NAME or 'qqfile'
-publicDir = process.env.PUBLIC_DIR
-nodeModulesDir = process.env.NODE_MODULES_DIR
-uploadedFilesPath = process.env.UPLOADED_FILES_DIR || './photo-storage'
-chunkDirName = 'chunks'
-
-# in bytes, 0 for unlimited
-maxFileSize = process.env.MAX_FILE_SIZE or 0
 
 module.exports = (router)->
   router.post '/upload', onUpload

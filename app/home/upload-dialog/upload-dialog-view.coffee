@@ -9,7 +9,25 @@ class UploadDialogView extends DialogView
   render: ->
     super
     @_initUploader()
+    @_getAlbums()
 
+  _getAlbums: ->
+    me = @
+    $.ajax
+      url: '/album-brief'
+      method: 'GET'
+      success: (data)->
+        console.log data
+        me._albums = data
+        me._resetForm()
+      error: (err)->
+        console.log err
+
+  _resetForm: ->
+    $select = @$('#album-uploadTo select')
+    $select.html('')
+    for album in @_albums
+      $select.append "<option value='#{album._id}'>#{album.title}</option>"
 
   _initUploader: ->
     @$('#fine-uploader-manual-trigger').fineUploader

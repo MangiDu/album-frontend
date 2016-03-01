@@ -1,5 +1,5 @@
 controllersMap = {
-  # 'home': './home/controller'
+  '': './home/controller'
   'album_detail/:id': './album/controller'
 }
 

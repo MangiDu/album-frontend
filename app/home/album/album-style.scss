@@ -4,3 +4,11 @@
     min-width: 200px;
   }
 }
+
+.album-item__cover {
+  text-align: center;
+  .glyphicon {
+    font-size: 12em;
+    color: #666;
+  }
+}

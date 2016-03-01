@@ -50,6 +50,15 @@ router.get '/album', (req, res, next)->
       console.log(err)
   )
 
+router.get '/album-brief', (req, res, next)->
+  Album.find({user: req.user._id}, '_id title', (err, docs)->
+    if !err
+      console.log docs
+      res.send docs
+    else
+      console.log(err)
+  )
+
 router.post '/album', (req, res, next)->
   album = new Album
     user: req.user._id

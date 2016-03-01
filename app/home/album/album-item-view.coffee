@@ -5,7 +5,7 @@ class AlbumItemView extends Marionette.ItemView.extend()
   template: swig.compile require './album-item'
   className: 'album-item'
   events:
-    'click .cover-image': 'redirectToDetail'
+    'click .js-album-cover': 'redirectToDetail'
 
   redirectToDetail: (e)->
     Util.redirectTo "/album_detail/#{@model.id}"

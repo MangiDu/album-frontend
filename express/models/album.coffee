@@ -9,5 +9,8 @@ Album = new Schema(
   date:
     type: Date
     default: Date.now
+  photo_amount:
+    type: Number
+    default: 0
 )
 module.exports = mongoose.model('Album', Album)

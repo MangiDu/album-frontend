@@ -1,6 +1,12 @@
-<div class="thumbnail">
+<div class="thumbnail album-item__thumbnail">
   <div>
-    <img class="cover-image" src="" alt="">
+    <div class="album-item__cover js-album-cover">
+      {% if photo_amount != 0 %}
+      <img class="cover-image" src="" alt="">
+      {% else %}
+      <span class="glyphicon glyphicon-picture"></span>
+      {% endif %}
+    </div>
   </div>
   <div>
     {{ title }}
