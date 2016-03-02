@@ -1,0 +1,60 @@
+.album-item__thumbnail {
+  padding: 0;
+  position: relative;
+}
+
+.album-item__action {
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  .action-trigger {
+    cursor: pointer;
+    .glyphicon {
+      margin-right: 1em;
+    }
+  }
+}
+
+.album-item__cover {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  .glyphicon {
+    font-size: 14em;
+    color: #666;
+  }
+}
+
+.album-item__image-ctn {
+  text-align: center;
+  cursor: pointer;
+}
+
+.album-item__intro {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  color: #eee;
+}
+
+.album-item__collapse {
+  height: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: height 0.5s ease;
+}
+
+.album-item__thumbnail:hover .album-item__collapse {
+  height: 60px;
+}
+
+.album-item__photo-amount {
+  text-align: right;
+  font-size: 3em;
+  margin-right: 0.5em;
+  color: #fff;
+  text-shadow: 1px 2px 0px #333;
+}
+
+.album-item__text {
+  padding: 5px 10px;
+}

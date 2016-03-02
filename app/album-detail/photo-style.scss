@@ -1,6 +1,8 @@
 .photo-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   .photo-item {
-    display: inline-block;
     max-width: 200px;
     text-align: center;
     overflow: hidden;

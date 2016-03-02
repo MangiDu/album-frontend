@@ -3,8 +3,9 @@ require './photo-style'
 Marionette = require 'marionette'
 PhotoView = require './photo-view'
 
-class AlbumDetailView extends Marionette.CollectionView.extend()
+class AlbumDetailView extends Marionette.CompositeView.extend()
+  template: swig.compile require './album-detail'
   childView: PhotoView
-  className: 'photo-list'
+  childViewContainer: '.photo-list'
 
 module.exports = AlbumDetailView

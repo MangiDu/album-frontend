@@ -44,7 +44,10 @@ onUpload = (req, res) ->
           console.log 'photo save got a mistake'
 
         Photo.count({album: targetAlbum}, (err, count)->
-          Album.update({_id: targetAlbum}, {photo_amount: count}, (err, raw)->
+          dataToUpdate = photo_amount: count
+          if count == 1
+            dataToUpdate.cover = photo.thumbnail
+          Album.update({_id: targetAlbum}, dataToUpdate, (err, raw)->
             res.send _.extend responseData, {photo: photo}
           )
         )

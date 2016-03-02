@@ -1,18 +1,45 @@
-<div class="thumbnail album-item__thumbnail">
-  <div>
+<div class="col-md-3 col-xs-6 album-item ">
+  <div class="thumbnail album-item__thumbnail">
     <div class="album-item__cover js-album-cover">
-      {% if photo_amount != 0 %}
-      <img class="cover-image" src="" alt="">
-      {% else %}
-      <span class="glyphicon glyphicon-picture"></span>
-      {% endif %}
+      <div class="album-item__image-ctn">
+        {% if photo_amount != 0 %}
+        <img class="cover-image" src="{{ cover }}" alt="">
+        {% else %}
+        <span class="glyphicon glyphicon-picture"></span>
+        {% endif %}
+      </div>
+      <div class="album-item__intro">
+        <div class="album-item__photo-amount">
+          <strong>
+            <em>
+              {{ photo_amount }}
+            </em>
+          </strong>
+        </div>
+        <div class="album-item__collapse">
+          <div class="album-item__text">
+            <div class="album-item__intro-title">
+              {{ title }}
+            </div>
+            <div class="album-item__intro-descrip">
+              {{ description }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dropdown album-item__action">
+      <a class="btn btn-default js-album-dropdown" data-toggle="dropdown">
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a class="action-trigger" data-action="edit">
+          <span class="glyphicon glyphicon-pencil"></span>编辑
+        </a></li>
+        <li><a class="action-trigger" data-action="delete">
+          <span class="glyphicon glyphicon-trash"></span>删除
+        </a></li>
+      </ul>
     </div>
   </div>
-  <div>
-    {{ title }}
-  </div>
-  <div>
-    {{ description }}
-  </div>
-  <a class="btn" href="">编辑</a>
 </div>

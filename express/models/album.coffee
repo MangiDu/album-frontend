@@ -12,5 +12,6 @@ Album = new Schema(
   photo_amount:
     type: Number
     default: 0
+  cover: String
 )
 module.exports = mongoose.model('Album', Album)

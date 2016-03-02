@@ -1,6 +1,9 @@
+require './album-style'
+require './album/album-item-style'
+
 Marionette = require 'backbone.marionette'
-AlbumListView = require './album/album-list-view'
 AlbumCollection = require './album/album-collection'
+AlbumItemView = require './album/album-item-view'
 
 UploadDialogView = require './upload-dialog/upload-dialog-view'
 AlbumtDialogView = require './create-album/create-album-view'
@@ -8,6 +11,8 @@ AlbumtDialogView = require './create-album/create-album-view'
 class HomeView extends Marionette.CompositeView.extend()
   # TODO: BaseDialogView
   template: swig.compile require './home'
+  childViewContainer: '.album-list'
+  childView: AlbumItemView
   events:
     'click .action-trigger': 'actionHandler'
     'click .js-create-upload': 'showUploadDialog'
@@ -17,29 +22,6 @@ class HomeView extends Marionette.CompositeView.extend()
     data = {}
     data.origin = window.location.origin
     data
-
-  render: ->
-    super
-    @_getAlbums()
-
-  _getAlbums: ->
-    me = @
-    $.ajax
-      url: '/album'
-      method: 'GET'
-      success: (data)->
-        # console.log data
-        col = new AlbumCollection data
-        # console.log col
-        albumList = new AlbumListView(
-          el: me.$('.album-list')
-          collection: col
-        )
-        albumList.render()
-        console.log albumList
-
-      error: (err)->
-        console.log err
 
   showUploadDialog: (e)->
     uploadDialogView = new UploadDialogView()
