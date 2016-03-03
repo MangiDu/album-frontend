@@ -35,11 +35,12 @@
   position: absolute;
   bottom: 0;
   color: #eee;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
 
 .album-item__collapse {
   height: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  // background-color: rgba(0, 0, 0, 0.5);
   transition: height 0.5s ease;
 }
 
@@ -50,11 +51,15 @@
 .album-item__photo-amount {
   text-align: right;
   font-size: 3em;
-  margin-right: 0.5em;
+  padding-right: 0.5em;
   color: #fff;
   text-shadow: 1px 2px 0px #333;
 }
 
 .album-item__text {
   padding: 5px 10px;
+}
+
+.album-item__intro-title {
+  font-size: 20px;
 }
