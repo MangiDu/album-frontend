@@ -41,9 +41,9 @@ class DialogView extends Marionette.ItemView.extend()
     action = $target.data 'action'
     switch action
       when 'close'
-        @_hideAndDestroy()
+        @hideAndDestroy()
 
-  _hideAndDestroy: ->
+  hideAndDestroy: ->
     @$el.modal 'hide'
 
     me = @

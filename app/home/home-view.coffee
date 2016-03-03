@@ -15,8 +15,8 @@ class HomeView extends Marionette.CompositeView.extend()
   childView: AlbumItemView
   events:
     'click .action-trigger': 'actionHandler'
-    'click .js-create-upload': 'showUploadDialog'
-    'click .js-create-album': 'showAlbumDialog'
+    'click .js-create-upload-dialog': 'showUploadDialog'
+    'click .js-create-album-dialog': 'showAlbumDialog'
 
   serializeData: ->
     data = {}

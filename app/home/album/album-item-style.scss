@@ -63,3 +63,9 @@
 .album-item__intro-title {
   font-size: 20px;
 }
+
+.album-item__intro-descrip {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

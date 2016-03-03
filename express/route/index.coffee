@@ -5,7 +5,11 @@ Account = require '../models/account'
 Photo = require '../models/photo'
 Album = require '../models/album'
 
+_ = require 'underscore'
+
 router = express.Router()
+
+# TODO: ORM
 
 router.get '/', (req, res)->
   res.render 'login'
@@ -50,6 +54,16 @@ router.get '/album', (req, res, next)->
       console.log(err)
   )
 
+router.delete '/album/:id', (req, res, next)->
+  Photo.find({album: req.params.id}, (err, docs)->
+    _.each docs, (doc)->
+      doc.remove()
+  )
+  Album.findOne({_id: req.params.id}, (err, doc)->
+    doc.remove()
+  )
+
+# TODO:photo应该是album的subdocument
 router.get '/album-brief', (req, res, next)->
   Album.find({user: req.user._id}, '_id title', (err, docs)->
     if !err
