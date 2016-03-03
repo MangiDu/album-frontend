@@ -21,12 +21,17 @@ class DialogView extends Marionette.ItemView.extend()
 
     @setElement wrapper
     @$el.find('.modal-body').append $content
+    @setModalTitle()
     $(document.body).append @$el
 
     @$el.modal
       backdrop: 'static'
       keyboard: false
       show: false
+
+  setModalTitle: ()->
+    if title = @getOption 'title'
+      @$el.find('.modal-title').html title
 
   show: ->
     @$el.modal 'show'

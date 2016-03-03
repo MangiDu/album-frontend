@@ -1,5 +1,11 @@
-<form>
-  <input name="title" type="text"><br/>
-  <textarea name="description" rows="8" cols="40"></textarea>
-  <a class="btn btn-default submit" href="javascript:;">submit</a>
+<form class="js-create-album">
+  <div class="form-group">
+    <label class="control-label" for="title">相册名称</label>
+    <input class="form-control" name="title" type="text" required>
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="description">相册描述</label>
+    <textarea class="form-control" name="description" rows="4"></textarea>
+  </div>
+  <button class="btn btn-primary submit">确定</button>
 </form>

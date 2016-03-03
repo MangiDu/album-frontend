@@ -1,3 +1,3 @@
 eps:
 	gulp express
-	supervisor express-build/server.js
+	node express-build/server.js

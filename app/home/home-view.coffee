@@ -24,11 +24,15 @@ class HomeView extends Marionette.CompositeView.extend()
     data
 
   showUploadDialog: (e)->
-    uploadDialogView = new UploadDialogView()
+    uploadDialogView = new UploadDialogView(
+      title: '上传照片'
+    )
     uploadDialogView.show()
 
   showAlbumDialog: (e)->
-    albumDialogView = new AlbumtDialogView()
+    albumDialogView = new AlbumtDialogView(
+      title: '创建相册'
+    )
     albumDialogView.show()
 
   actionHandler: (e)->
