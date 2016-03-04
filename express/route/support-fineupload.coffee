@@ -31,27 +31,28 @@ onUpload = (req, res) ->
     onSimpleUpload fields, files[fileInputName][0], res, (destinationDir, fileName)->
       dest = destinationDir.replace /^./, ''
       responseData = success: true
-      photo = new Photo(
-        user: req.user._id
-        album: targetAlbum
-        title: fields.qqfilename
-        url: dest + fileName
-        thumbnail:  dest + PHOTO_PREFIX + fileName
-      )
-      # 回调地狱!!!
-      photo.save (err)->
-        if err
-          console.log 'photo save got a mistake'
 
-        Photo.count({album: targetAlbum}, (err, count)->
-          dataToUpdate = photo_amount: count
-          if count == 1
-            dataToUpdate.cover = photo.thumbnail
-          Album.update({_id: targetAlbum}, dataToUpdate, (err, raw)->
-            res.send _.extend responseData, {photo: photo}
-          )
+      Photo.count({album: targetAlbum}, (err, count)->
+        photo = new Photo(
+          user: req.user._id
+          album: targetAlbum
+          title: fields.qqfilename
+          url: dest + fileName
+          thumbnail:  dest + PHOTO_PREFIX + fileName
         )
 
+        dataToUpdate = photo_amount: count
+        if count == 0
+          dataToUpdate.cover = photo.thumbnail
+
+        photo.save (err)->
+          if err
+            console.log 'photo save got a mistake'
+
+        Album.update({_id: targetAlbum}, dataToUpdate, (err, raw)->
+          res.send _.extend responseData, {photo: photo}
+        )
+      )
     , ->
       responseData = error: 'Problem copying the file!'
       res.send responseData

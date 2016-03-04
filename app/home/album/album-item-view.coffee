@@ -1,5 +1,6 @@
 Marionette = require 'backbone.marionette'
 EnsureDeleteDialog = require './ensure-delete-dialog'
+UpdateAlbumDialog = require '../update-album/update-album-view'
 Util = require '../../util/util'
 
 class AlbumItemView extends Marionette.ItemView.extend()
@@ -26,11 +27,14 @@ class AlbumItemView extends Marionette.ItemView.extend()
     switch action
       when 'edit'
         console.log 'need edit'
+        @dialogView = new UpdateAlbumDialog
+          model: @model.clone()
       when 'delete'
         console.log 'need delete'
-        @ensureDeleteView = new EnsureDeleteDialog()
-        @listenTo @ensureDeleteView, 'command', @onCommand
-        @ensureDeleteView.show()
+        @dialogView = new EnsureDeleteDialog()
+
+    @listenTo @dialogView, 'command', @onCommand
+    @dialogView.show()
 
   onCommand: (command)->
     switch command
@@ -40,7 +44,7 @@ class AlbumItemView extends Marionette.ItemView.extend()
             console.log 'delete sucess'
         )
       when 'stopListening'
-        @stopListening @ensureDeleteView
-        delete @ensureDeleteView
+        @stopListening @dialogView
+        delete @dialogView
 
 module.exports = AlbumItemView
