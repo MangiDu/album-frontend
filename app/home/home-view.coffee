@@ -33,6 +33,12 @@ class HomeView extends Marionette.CompositeView.extend()
     albumDialogView = new AlbumtDialogView(
       title: '创建相册'
     )
+    @listenTo albumDialogView, 'refresh', ->
+      console.log 'need refresh'
+      @collection.fetch({success: ->
+        console.log 'collection fetch done'
+        # console.log arguments
+      })
     albumDialogView.show()
 
   actionHandler: (e)->

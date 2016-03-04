@@ -54,6 +54,8 @@ class CreateAlbumView extends DialogView
     dataArray.forEach (item)->
       dataToSend[item.name] = item.value
 
+    me = @
+
     $.ajax
       url: '/album'
       method: 'POST'
@@ -61,6 +63,8 @@ class CreateAlbumView extends DialogView
       success: (data)->
         console.log 'success'
         console.log data
+        me.trigger 'refresh'
+        me.hideAndDestroy()
       error: (err)->
         console.log err
     # 防止页面跳转
