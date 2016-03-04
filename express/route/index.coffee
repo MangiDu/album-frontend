@@ -54,6 +54,11 @@ router.get '/album', (req, res, next)->
       console.log(err)
   )
 
+router.get '/album/:id', (req, res, next)->
+  Album.findOne({_id: req.params.id}, (err, doc)->
+    res.send doc
+  )
+
 router.delete '/album/:id', (req, res, next)->
   Photo.find({album: req.params.id}, (err, docs)->
     _.each docs, (doc)->

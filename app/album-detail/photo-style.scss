@@ -1,3 +1,19 @@
+.album-info {
+  margin-bottom: 10px;
+}
+
+.album-info__text {
+  font-size: 3em;
+  small {
+    font-size: 0.4em;
+    margin-left: 1em;
+  }
+}
+
+.photo-toolbar {
+  margin-bottom: 20px;
+}
+
 .photo-list {
   display: flex;
   flex-wrap: wrap;
@@ -9,6 +25,19 @@
 
 .photo-item__thumbnail {
   margin-bottom: 10px;
+  position: relative;
+}
+
+.photo-item__action {
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  .action-trigger {
+    cursor: pointer;
+    .glyphicon {
+      margin-right: 1em;
+    }
+  }
 }
 
 .photo-item__cover {

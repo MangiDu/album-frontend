@@ -1,7 +1,23 @@
-<div class="photo-item col-md-3 col-xs-4">
+<div class="photo-item col-md-3 col-xs-6">
   <div class="thumbnail photo-item__thumbnail">
     <div class="photo-item__cover">
       <img src="{{ thumbnail }}" alt="">
+    </div>
+    <div class="dropdown photo-item__action">
+      <a class="btn btn-default js-photo-dropdown" data-toggle="dropdown">
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a class="action-trigger" data-action="edit">
+          <span class="glyphicon glyphicon-pencil"></span>编辑
+        </a></li>
+        <li><a class="action-trigger" data-action="cover">
+          <span class="glyphicon glyphicon-edit"></span>设为封面
+        </a></li>
+        <li><a class="action-trigger" data-action="delete">
+          <span class="glyphicon glyphicon-trash"></span>删除
+        </a></li>
+      </ul>
     </div>
   </div>
   <div class="photo-item__intro">

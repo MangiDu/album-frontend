@@ -31,6 +31,7 @@
   "dependencies": {
     "backbone": "^1.2.3",
     "backbone.marionette": "^2.4.4",
+    "bluebird": "^3.3.3",
     "body-parser": "^1.15.0",
     "bootstrap": "^3.3.6",
     "compression": "^1.6.1",
