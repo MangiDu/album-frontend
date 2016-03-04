@@ -13,6 +13,28 @@ class AlbumItemView extends BaseView
   onAttach: ->
     @$('.js-album-dropdown').dropdown()
 
+  render: ->
+    super
+    @_adjustCoverImg()
+
+  _adjustCoverImg: ->
+    return unless @model.get 'cover'
+    image = new Image()
+    image.src = @model.get 'cover'
+
+    $ctn = @$ '.album-item__cover'
+    $coverImg = @$ '.cover-image'
+    $coverImg.attr 'src', image.src
+
+    image.onload = ->
+      imgWidth = image.width
+      imgHeight = image.height
+      ctnWidth = $ctn.width()
+      ctnHeight = $ctn.height()
+      $coverImg.css
+        'margin-left': (ctnWidth - imgWidth) / 2
+        'margin-top': (ctnHeight - imgHeight) / 2
+
   redirectToDetail: (e)->
     Util.redirectTo "/album_detail/#{@model.id}"
 
@@ -32,8 +54,11 @@ class AlbumItemView extends BaseView
     @listenTo @dialogView, 'command', @onCommand
     @dialogView.show()
 
-  onCommand: (command)->
+  onCommand: (command, model)->
     switch command
+      when 'refresh'
+        @model.set model.attributes
+        @render()
       when 'delete'
         @model.destroy(
           success: (model, response)->

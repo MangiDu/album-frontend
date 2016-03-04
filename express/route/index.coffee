@@ -64,8 +64,13 @@ router.delete '/album/:id', (req, res, next)->
   )
 
 router.put '/album/:id', (req, res, next)->
-  Album.findOneAndUpdate {_id: req.params.id}, req.body, (err, doc)->
+  data =
+    title: req.body.title
+    description: req.body.description
+
+  Album.findOneAndUpdate({_id: req.params.id}, data, {new: true}, (err, doc)->
     res.send doc
+  )
 
 # TODO:photo应该是album的subdocument
 router.get '/album-brief', (req, res, next)->

@@ -8,6 +8,17 @@
 }
 
 .photo-item__thumbnail {
-  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.photo-item__cover {
   height: 160px;
+  overflow: hidden;
+  img {
+    max-height: 160px;
+  }
+}
+
+.photo-item__intro {
+  margin-bottom: 20px;
 }

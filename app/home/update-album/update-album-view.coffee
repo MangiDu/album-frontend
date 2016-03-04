@@ -56,8 +56,15 @@ class UpdateAlbumView extends DialogView
     dataArray.forEach (item)->
       dataToSend[item.name] = item.value
 
+    me = @
     @model.set dataToSend
-    @model.save()
+    @model.save({},
+      success: (model, response, options)->
+        console.log 'after save'
+        console.log model.attributes
+        me.trigger 'command', 'refresh', model
+        me.hideAndDestroy()
+    )
 
     return false
 

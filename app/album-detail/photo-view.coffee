@@ -1,7 +1,6 @@
-Marionette = require 'marionette'
+BaseView = require '../base/base-view'
 
-class PhotoView extends Marionette.ItemView.extend()
+class PhotoView extends BaseView
   template: swig.compile require './photo-item'
-  className: 'photo-item'
 
 module.exports = PhotoView
