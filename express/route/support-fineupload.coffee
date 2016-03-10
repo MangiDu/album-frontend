@@ -41,7 +41,7 @@ onUpload = (req, res) ->
           thumbnail:  dest + PHOTO_PREFIX + fileName
         )
 
-        dataToUpdate = photo_amount: count
+        dataToUpdate = photo_amount: count + 1
         if count == 0
           dataToUpdate.cover = photo.thumbnail
 
