@@ -18,5 +18,9 @@ module.exports = (router)->
     )
 
   router.delete '/photo/:id', (req, res, next)->
-    Photo.findOne {_id: req.params.id}, (err, doc)->
-      doc.remove()
+    id = req.params.id
+    cb = ->
+      data = success: true
+      res.send data
+
+    Photo.delete id, cb

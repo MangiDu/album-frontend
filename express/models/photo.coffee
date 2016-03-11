@@ -13,5 +13,13 @@ Photo = new Schema(
     type: Date
     default: Date.now
   url: String
-  thumbnail: String)
+  thumbnail: String
+)
+
+Photo.statics.delete = (id, cb)->
+  this.findOne {_id: id}, (err, doc)->
+    if err
+      return
+    doc.remove(cb)
+
 module.exports = mongoose.model('Photo', Photo)
