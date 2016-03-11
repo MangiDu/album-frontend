@@ -4,7 +4,7 @@ Util = require '../util/util'
 HeaderView = require '../header/header-view'
 HomeView = require '../home/home-view'
 
-UserModel = require '../model/user-model'
+UserModel = require './user-model'
 
 class LayoutView extends Marionette.LayoutView.extend()
   template: swig.compile require './layout'
