@@ -1,7 +1,7 @@
 require './photo-style'
 
 Marionette = require 'marionette'
-PhotoView = require './photo-view'
+PhotoView = require './photo/photo-view'
 
 class AlbumDetailView extends Marionette.CompositeView.extend()
   template: swig.compile require './album-detail'

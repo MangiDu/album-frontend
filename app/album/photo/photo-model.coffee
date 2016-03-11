@@ -1,4 +1,4 @@
-BaseModel = require '../base/base-model'
+BaseModel = require '../../base/base-model'
 
 class PhotoModel extends BaseModel
   urlRoot: '/photo'

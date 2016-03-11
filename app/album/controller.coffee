@@ -1,5 +1,5 @@
 config = require '../config'
-PhotoCollection = require './photo-collection'
+PhotoCollection = require './photo/photo-collection'
 AlbumDetailView = require './album-detail-view'
 AlbumModel = require '../home/album/album-model'
 
