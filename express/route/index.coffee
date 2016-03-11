@@ -1,130 +1,25 @@
 express = require('express')
-passport = require('passport')
-
-Account = require '../models/account'
-Photo = require '../models/photo'
-Album = require '../models/album'
-
-_ = require 'underscore'
-
 router = express.Router()
 
 # TODO: ORM
-
 router.get '/', (req, res)->
   res.render 'login'
 
-router.post '/signup', (req, res) ->
-  Account.register new Account(username: req.body.username), req.body.password, (err, account) ->
-    if err
-      return res.render('err', account: account)
-    passport.authenticate('local') req, res, ->
-      res.redirect '/app'
+# 注册登陆登出
+require('./userAuthority') router
+# API
+require('./api/user') router
+require('./api/album') router
+require('./api/photo') router
+# 上传照片
+require('./support-fineupload')(router)
 
-router.post '/signin', passport.authenticate('local'), (req, res, next) ->
-  req.session.save (err) ->
-    if err
-      return next(err)
-    res.redirect '/app'
-
-router.get '/signout', (req, res, next) ->
-  req.logout()
-  req.session.save (err) ->
-    if err
-      return next(err)
-    res.redirect '/'
-
-router.get '/api/user', (req, res, next)->
-  if req.user
-    res.send(req.user)
-  else
-    res.status(401).end()
-
+# 屏蔽掉其他未定义的路由
 router.get /^\/.+/, (req, res, next) ->
   if req.user && req.user._id
-    next()
+    res.redirect '/app'
   else
     res.redirect '/'
-
-router.get '/album', (req, res, next)->
-  Album.find({user: req.user._id}, (err, docs)->
-    if !err
-      res.send docs
-    else
-      console.log(err)
-  )
-
-router.get '/album/:id', (req, res, next)->
-  Album.findOne({_id: req.params.id}, (err, doc)->
-    res.send doc
-  )
-
-router.delete '/album/:id', (req, res, next)->
-  Photo.find({album: req.params.id}, (err, docs)->
-    _.each docs, (doc)->
-      doc.remove()
-  )
-  Album.findOne({_id: req.params.id}, (err, doc)->
-    doc.remove()
-  )
-
-router.put '/album/:id', (req, res, next)->
-  data =
-    title: req.body.title
-    description: req.body.description
-
-  Album.findOneAndUpdate({_id: req.params.id}, data, {new: true}, (err, doc)->
-    res.send doc
-  )
-
-# TODO:photo应该是album的subdocument
-router.get '/album-brief', (req, res, next)->
-  Album.find({user: req.user._id}, '_id title', (err, docs)->
-    if !err
-      # console.log docs
-      res.send docs
-    else
-      console.log(err)
-  )
-
-router.get '/album-detail', (req, res, next)->
-  Photo.find({user: req.user._id, album: req.query.album}, (err, docs)->
-    if !err
-      # console.log docs
-      res.send docs
-    else
-      console.log err
-  )
-
-router.post '/album', (req, res, next)->
-  album = new Album
-    user: req.user._id
-    title: req.body.title
-    description: req.body.description
-  album.save (err)->
-    if err
-      console.log 'album save got a mistake'
-    res.json(album)
-
-router.get '/photo/:id', (req, res, next)->
-  Photo.findOne({_id: req.params.id}, (err, doc)->
-    res.send doc
-  )
-
-router.put '/photo/:id', (req, res, next)->
-  data = {
-    title: req.body.title
-    description: req.body.decription
-  }
-  Photo.findOneAndUpdate({_id: req.params.id}, data, {new: true}, (err, doc)->
-    res.send doc
-  )
-
-router.delete '/photo/:id', (req, res, next)->
-  Photo.findOne {_id: req.params.id}, (err, doc)->
-    doc.remove()
-
-require('./support-fineupload')(router)
 
 module.exports = (app)->
   app.use router
