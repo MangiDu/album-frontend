@@ -1,8 +1,6 @@
-Backbone = require 'backbone'
+BaseModel = require '../base/base-model'
 
-class UserModel extends Backbone.Model.extend()
+class UserModel extends BaseModel
   urlRoot: '/api/user/'
-  initialize: (options)->
-    @id = options._id
 
 module.exports = UserModel

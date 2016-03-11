@@ -1,7 +1,6 @@
-Backbone = require 'backbone'
+BaseModel = require '../base/base-model'
 
-class PhotoModel extends Backbone.Model.extend()
-  idAttribute: '_id'
+class PhotoModel extends BaseModel
   urlRoot: '/photo'
 
 module.exports = PhotoModel
