@@ -36,7 +36,7 @@ class AlbumItemView extends BaseView
         'margin-top': (ctnHeight - imgHeight) / 2
 
   redirectToDetail: (e)->
-    Util.redirectTo "/album_detail/#{@model.id}"
+    Util.redirectTo "/album/#{@model.id}"
 
   actionHandler: (e)->
     $target = $ e.currentTarget
