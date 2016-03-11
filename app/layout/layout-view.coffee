@@ -1,7 +1,7 @@
 Marionette = require 'backbone.marionette'
 Util = require '../util/util'
 
-HeaderView = require '../header/header-view'
+HeaderView = require '../component/header/header-view'
 HomeView = require '../home/home-view'
 
 UserModel = require './user-model'
