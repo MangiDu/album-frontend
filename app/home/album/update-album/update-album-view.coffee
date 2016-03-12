@@ -1,11 +1,10 @@
 require './dialog-style'
-require '../../../node_modules/jquery-validation/dist/jquery.validate'
+require '../../../../node_modules/jquery-validation/dist/jquery.validate'
 
-DialogView = require '../../component/dialog/dialog-view'
+DialogView = require '../../../component/dialog/dialog-view'
 _ = require 'underscore'
 
 
-# 和create-album一样,应该考虑抽象一下
 class UpdateAlbumView extends DialogView
   template: swig.compile require './update-album'
   events: _.extend UpdateAlbumView.prototype.events, {
@@ -14,6 +13,9 @@ class UpdateAlbumView extends DialogView
 
   render: ->
     super
+
+    @$('textarea')[0].defaultValue = @model.get 'description'
+
     @_initValidator()
 
   _initValidator: ->

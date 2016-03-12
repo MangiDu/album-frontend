@@ -27,17 +27,22 @@ class HomeView extends Marionette.CompositeView.extend()
     uploadDialogView = new UploadDialogView(
       title: '上传照片'
     )
+    # dialog没有操作关闭了也要销毁监听啊
+    @listenToOnce uploadDialogView, 'refresh', ->
+      console.log 'need refresh'
+      @collection.fetch({success: ->
+        console.log 'collection fetch done'
+      })
     uploadDialogView.show()
 
   showAlbumDialog: (e)->
     albumDialogView = new AlbumtDialogView(
       title: '创建相册'
     )
-    @listenTo albumDialogView, 'refresh', ->
+    @listenToOnce albumDialogView, 'refresh', ->
       console.log 'need refresh'
       @collection.fetch({success: ->
         console.log 'collection fetch done'
-        # console.log arguments
       })
     albumDialogView.show()
 

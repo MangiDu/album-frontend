@@ -1,11 +1,11 @@
 <form class="js-update-album">
   <div class="form-group">
     <label class="control-label" for="title">相册名称</label>
-    <input class="form-control" name="title" type="text" placeholder="{{ title }}">
+    <input class="form-control" name="title" type="text" placeholder="{{ title }}" value="{{ title }}">
   </div>
   <div class="form-group">
     <label class="control-label" for="description">相册描述</label>
-    <textarea class="form-control" name="description" rows="4" placeholder="{{ description }}"></textarea>
+    <textarea class="form-control" name="description" rows="4" placeholder="{{ description }}" defaultValue="{{ description }}"></textarea>
   </div>
   <button class="btn btn-primary">确定</button>
   <a class="btn btn-default js-cancel">取消</a>

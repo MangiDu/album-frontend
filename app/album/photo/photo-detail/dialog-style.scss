@@ -1,0 +1,13 @@
+.photo-detail-item {
+}
+
+.photo-detail__photo {
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .photo-detail-item {
+    max-width: 760px;
+    min-width: 60%;
+  }
+}

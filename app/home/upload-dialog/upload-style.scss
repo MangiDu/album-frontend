@@ -1,0 +1,11 @@
+.qq-uploader {
+  overflow: hidden;
+  .buttons {
+    margin-bottom: 10px;
+  }
+  .qq-upload-list {
+    .qq-upload-file-selector.qq-upload-file.qq-editable {
+      width: 180px;
+    }
+  }
+}

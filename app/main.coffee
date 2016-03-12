@@ -1,4 +1,5 @@
 require '../node_modules/bootstrap/dist/css/bootstrap'
+require './app-style'
 
 AlbumApp = require './application/app'
 

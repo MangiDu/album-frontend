@@ -1,8 +1,9 @@
 # basic photoView,uploadView都会继承这个View
 
 Marionette = require 'backbone.marionette'
+BaseView = require '../../base/base-view'
 
-class DialogView extends Marionette.ItemView.extend()
+class DialogView extends BaseView
   wrapperTemplate: swig.compile require './dialog-wrapper'
   # template: swig.compile require './test'
   events:
@@ -22,6 +23,7 @@ class DialogView extends Marionette.ItemView.extend()
     @setElement wrapper
     @$el.find('.modal-body').append $content
     @setModalTitle()
+    @setModalClass()
     $(document.body).append @$el
 
     @$el.modal
@@ -32,6 +34,10 @@ class DialogView extends Marionette.ItemView.extend()
   setModalTitle: ()->
     if title = @getOption 'title'
       @$el.find('.modal-title').html title
+
+  setModalClass: ()->
+    if className = @getOption 'className'
+      @$el.find('.modal-dialog').addClass className
 
   show: ->
     @$el.modal 'show'

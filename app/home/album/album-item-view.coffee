@@ -1,7 +1,7 @@
 Marionette = require 'backbone.marionette'
 BaseView = require '../../base/base-view'
 EnsureDeleteDialog = require './ensure-delete-dialog'
-UpdateAlbumDialog = require '../update-album/update-album-view'
+UpdateAlbumDialog = require './update-album/update-album-view'
 Util = require '../../util/util'
 
 class AlbumItemView extends BaseView
@@ -16,6 +16,7 @@ class AlbumItemView extends BaseView
   render: ->
     super
     @_adjustCoverImg()
+    @listenTo @model, 'change', @render
 
   _adjustCoverImg: ->
     return unless @model.get 'cover'
@@ -58,7 +59,7 @@ class AlbumItemView extends BaseView
     switch command
       when 'refresh'
         @model.set model.attributes
-        @render()
+        # @render()
       when 'delete'
         @model.destroy(
           success: (model, response)->

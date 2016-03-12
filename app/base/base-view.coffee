@@ -2,7 +2,8 @@ Marionette = require 'marionette'
 
 class BaseView extends Marionette.ItemView.extend()
 
-  onRender: ->
+  render: ->
+    super
     # drop extra div wrapper when render
     @$el = @$el.children()
     @$el.unwrap()

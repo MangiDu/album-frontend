@@ -26,6 +26,9 @@
 .photo-item__thumbnail {
   margin-bottom: 10px;
   position: relative;
+  .dropdown-menu {
+    min-width: initial;
+  }
 }
 
 .photo-item__action {
@@ -50,4 +53,8 @@
 
 .photo-item__intro {
   margin-bottom: 20px;
+}
+
+.photo-list--batch-management {
+  
 }

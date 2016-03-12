@@ -1,5 +1,9 @@
-require '../../../node_modules/fine-uploader/jquery.fine-uploader/fine-uploader'
+require '../../../node_modules/fine-uploader/jquery.fine-uploader/fine-uploader-new'
 require '../../../node_modules/fine-uploader/jquery.fine-uploader/jquery.fine-uploader'
+require './upload-style'
+
+require '../../../node_modules/bootstrap-select/dist/js/bootstrap-select'
+require '../../../node_modules/bootstrap-select/dist/css/bootstrap-select'
 
 DialogView = require '../../component/dialog/dialog-view'
 
@@ -29,7 +33,10 @@ class UploadDialogView extends DialogView
     for album in @_albums
       $select.append "<option value='#{album._id}'>#{album.title}</option>"
 
+    $select.selectpicker()
+
   _initUploader: ->
+    me = @
     @$('#fine-uploader-manual-trigger').fineUploader
       form:
         element: @$ '#album-uploadTo'
@@ -41,11 +48,14 @@ class UploadDialogView extends DialogView
           waitingPath: '/placeholders/waiting-generic.png'
           notAvailablePath: '/placeholders/not_available-generic.png'
       autoUpload: false
+      # uploaderType: 'basic'
+      callbacks:
+        onAllComplete: ->
+          console.log 'yes all uploaded'
+          me.trigger 'refresh'
+          me.hideAndDestroy()
 
-    me = @
     @$('#trigger-upload').click ->
-
       me.$('#fine-uploader-manual-trigger').fineUploader 'uploadStoredFiles'
-
 
 module.exports = UploadDialogView
