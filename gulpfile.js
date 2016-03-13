@@ -50,7 +50,11 @@ gulp.task('copy:static', function(){
 });
 
 gulp.task('watch:compile', function(){
-  gulp.watch([SRC + '**/*.coffee', SRC + '**/*.scss'], ['compile'])
+  gulp.watch([SRC + '**/*.coffee'], ['compile:js'])
+    .on('change', function(event){
+      console.log('File ' + event.path + ' was ' + event.type + ', running tasks => compile');
+    })
+  gulp.watch([SRC + '**/*.scss'], ['compile:css'])
     .on('change', function(event){
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks => compile');
     })
@@ -83,7 +87,7 @@ gulp.task('serve', function(){
   });
 });
 
-gulp.task('webpack', ['compile', 'copy'], function(){
+gulp.task('webpack', function(){
   return gulp.src(DEST + 'main.js')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest(APP_DEST));
@@ -135,7 +139,8 @@ gulp.task('build', gulpSequence(
 
 gulp.task('dev', gulpSequence(
   'build',
-  'watch')
+  'watch'
+  )
   // 'serve')
 );
 
