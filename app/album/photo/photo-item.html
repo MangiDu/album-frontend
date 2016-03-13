@@ -11,9 +11,6 @@
         <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
-        <li><a class="action-trigger" data-action="edit">
-          <span class="glyphicon glyphicon-pencil"></span>编辑
-        </a></li>
         <li><a class="action-trigger" data-action="cover">
           <span class="glyphicon glyphicon-edit"></span>设为封面
         </a></li>
@@ -22,8 +19,10 @@
         </a></li>
       </ul>
     </div>
-    <div class="photo-item__intro">
-      <span>{{ title }}</span>
+    <div class="photo-item__title">
+      <span class="photo-item__title-span" title="{{ title }}">{{ title }}</span>
+      <input class="form-control photo-item__input--edit-title js-edit-input" type="text">
+      <span class="glyphicon glyphicon-pencil action-trigger" data-action="rename"></span>
     </div>
   </div>
 </div>

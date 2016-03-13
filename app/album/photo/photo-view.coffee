@@ -1,6 +1,5 @@
 BaseView = require '../../base/base-view'
 
-UpdatePhotoDialog = require './update-photo/update-photo-view'
 PhotoDetailDialog = require './photo-detail/photo-detail-dialog'
 
 class PhotoView extends BaseView
@@ -42,22 +41,13 @@ class PhotoView extends BaseView
     $target = $ e.currentTarget
     action = $target.data 'action'
     switch action
-      when 'edit'
-        console.log 'need edit'
-        @dialogView = new UpdatePhotoDialog
-          model: @model.clone()
-          title: '编辑相片'
-        @listenTo @dialogView, 'command', @onCommand
-        @dialogView.show()
       when 'cover'
-        console.log 'set to cover'
         $.ajax
           data:
             cover: @model.get 'thumbnail'
           url: '/album/' + @_parent.model.id
           method: 'PUT'
           success: (data)->
-            console.log 'set to cover success'
             console.log data
       when 'delete'
         @model.destroy(
@@ -65,13 +55,36 @@ class PhotoView extends BaseView
             console.log 'model destroy success'
         )
       when 'detail'
-        console.log 'detail'
         detailDialog = new PhotoDetailDialog
           model: @model.clone()
           title: '相片详情'
           className: 'photo-detail-item'
 
         detailDialog.show()
+
+      when 'rename'
+        console.log 'rename'
+        @_titleEditing = true
+        @$('.photo-item__title').addClass 'editing'
+        title = @model.get 'title'
+
+        me = @
+
+        @$('.js-edit-input').attr
+          placeholder: title
+          value: title
+        .off 'keypress'
+        .on 'keypress', (e)->
+          inputTitle = $.trim(e.currentTarget.value)
+          if inputTitle != '' && e.keyCode == 13
+            me.model.set 'title', inputTitle
+            me.model.save
+              success: (model)->
+                console.log 'title save success'
+        .blur ()->
+          me._titleEditing = false
+          me.$('.photo-item__title').removeClass 'editing'
+        .focus()
 
   togglePhotoChosen: ()->
     @_isChosen = !@_isChosen

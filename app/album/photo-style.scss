@@ -18,20 +18,24 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  .photo-item {
-    text-align: center;
-  }
 }
 
 .photo-item__thumbnail {
   margin-bottom: 10px;
   position: relative;
+  transition: all 0.1s linear;
   .dropdown-menu {
     min-width: initial;
+  }
+  &:hover {
+    .photo-item__action {
+      display: block;
+    }
   }
 }
 
 .photo-item__action {
+  display: none;
   position: absolute;
   top: 0.5em;
   left: 0.5em;
@@ -54,9 +58,53 @@
 
 .photo-item__cover--chosen {
   display: none;
+  text-align: center;
 }
 
-.photo-item__intro {
+.photo-item__title-span {
+  line-height: 2.6em;
+  display: block;
+  text-align: center;
+
+  padding: 0px 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.photo-item__title {
+  position: relative;
+  .action-trigger {
+    transition: all 0.1s linear;
+    opacity: 0;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    margin-top: -0.5em;
+  }
+  &.editing {
+    .photo-item__title-span {
+      display: none;
+    }
+    .photo-item__input--edit-title {
+      text-align: center;
+      margin: 4px 0px;
+      height: 2em;
+      display: block;
+    }
+    .action-trigger {
+      display: none;
+    }
+  }
+  &:hover {
+    .action-trigger {
+      opacity: 1;
+    }
+  }
+}
+
+.photo-item__input--edit-title {
+  display: none;
 }
 
 .photo-list--batch-management {
