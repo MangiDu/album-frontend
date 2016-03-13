@@ -7,10 +7,12 @@ class PhotoView extends BaseView
   template: swig.compile require './photo-item'
   events:
     'click .action-trigger': 'actionHandler'
+    'click .js-choose-photo': 'togglePhotoChosen'
 
   render: ->
     super
     @_adjustCoverImg()
+    @listenTo @model, 'change', @render
 
   _adjustCoverImg: ->
     return unless @model.get 'thumbnail'
@@ -49,6 +51,14 @@ class PhotoView extends BaseView
         @dialogView.show()
       when 'cover'
         console.log 'set to cover'
+        $.ajax
+          data:
+            cover: @model.get 'thumbnail'
+          url: '/album/' + @_parent.model.id
+          method: 'PUT'
+          success: (data)->
+            console.log 'set to cover success'
+            console.log data
       when 'delete'
         @model.destroy(
           success: (model, res)->
@@ -63,5 +73,17 @@ class PhotoView extends BaseView
 
         detailDialog.show()
 
+  togglePhotoChosen: ()->
+    @_isChosen = !@_isChosen
+    @$el.toggleClass 'photo-item--chosen', @_isChosen
+
+  onCommand: (command)->
+    switch command
+      when 'refresh'
+        @model.fetch(
+          success: (data)->
+            console.log 'model fetch success'
+            console.log data
+        )
 
 module.exports = PhotoView

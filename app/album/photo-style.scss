@@ -44,6 +44,7 @@
 }
 
 .photo-item__cover {
+  position: relative;
   height: 160px;
   overflow: hidden;
   img {
@@ -51,10 +52,40 @@
   }
 }
 
+.photo-item__cover--chosen {
+  display: none;
+}
+
 .photo-item__intro {
-  margin-bottom: 20px;
 }
 
 .photo-list--batch-management {
-  
+  .photo-item__action {
+    display: none;
+  }
+
+  .photo-item__cover--chosen {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    color: transparent;
+    font-size: 5em;
+    .glyphicon {
+      line-height: 2em;
+    }
+  }
+
+  .photo-item--chosen {
+    .photo-item__thumbnail {
+      box-shadow: 1px 1px 3px #888;
+    }
+    .photo-item__cover--chosen {
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
 }

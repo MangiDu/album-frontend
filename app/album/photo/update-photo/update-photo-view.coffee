@@ -13,11 +13,11 @@ class UpdatePhotoView extends DialogView
 
   render: ->
     super
-    # @_initValidator()
+    @_initValidator()
 
   _initValidator: ->
     me = @
-    @$form = @$ 'form.js-update-album'
+    @$form = @$ 'form.js-update-photo'
     @$form.validate(
       rules:
         title:

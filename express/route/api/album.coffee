@@ -29,9 +29,8 @@ module.exports = (router)->
     )
 
   router.put '/album/:id', (req, res, next)->
-    data =
-      title: req.body.title
-      description: req.body.description
+    # console.log req.body
+    data = _.pick req.body, 'title', 'description', 'cover'
 
     Album.findOneAndUpdate({_id: req.params.id}, data, {new: true}, (err, doc)->
       res.send doc

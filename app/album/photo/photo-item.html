@@ -1,7 +1,10 @@
-<div class="photo-item col-md-2 col-xs-6">
+<div class="photo-item col-md-2 col-xs-4">
   <div class="thumbnail photo-item__thumbnail">
-    <div class="photo-item__cover action-trigger" data-action="detail">
-      <img class="cover-image" src="" alt="">
+    <div class="photo-item__cover">
+      <img class="cover-image action-trigger" data-action="detail" src="" alt="">
+      <div class="photo-item__cover--chosen js-choose-photo">
+        <span class="glyphicon glyphicon-ok"></span>
+      </div>
     </div>
     <div class="dropdown photo-item__action">
       <a class="btn btn-default js-photo-dropdown" data-toggle="dropdown">
@@ -20,7 +23,7 @@
       </ul>
     </div>
     <div class="photo-item__intro">
-      <p>{{ title }}</p>
+      <span>{{ title }}</span>
     </div>
   </div>
 </div>
