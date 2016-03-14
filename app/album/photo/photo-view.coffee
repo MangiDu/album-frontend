@@ -87,8 +87,8 @@ class PhotoView extends BaseView
         .focus()
 
   togglePhotoChosen: ()->
-    @_isChosen = !@_isChosen
-    @$el.toggleClass 'photo-item--chosen', @_isChosen
+    @model.isChosen = !@model.isChosen
+    @$el.toggleClass 'photo-item--chosen', @model.isChosen
 
   onCommand: (command)->
     switch command

@@ -10,13 +10,15 @@ class AlbumItemView extends BaseView
     'click .js-album-cover': 'redirectToDetail'
     'click .action-trigger': 'actionHandler'
 
+  initialize: ->
+    @listenTo @model, 'change', @render
+
   onAttach: ->
     @$('.js-album-dropdown').dropdown()
 
   render: ->
     super
     @_adjustCoverImg()
-    @listenTo @model, 'change', @render
 
   _adjustCoverImg: ->
     return unless @model.get 'cover'

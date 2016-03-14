@@ -2,6 +2,7 @@ require './photo-style'
 
 Marionette = require 'marionette'
 PhotoView = require './photo/photo-view'
+_ = require 'underscore'
 
 class AlbumDetailView extends Marionette.CompositeView.extend()
   template: swig.compile require './album-detail'
@@ -9,6 +10,7 @@ class AlbumDetailView extends Marionette.CompositeView.extend()
   childViewContainer: '.photo-list'
   events:
     'click .js-manage-batch': 'onManageBatchBtnClick'
+    'click .js-batch-delete': 'onBatchDelete'
 
   onManageBatchBtnClick: (e)->
     manageTextMap = {
@@ -21,5 +23,11 @@ class AlbumDetailView extends Marionette.CompositeView.extend()
 
     # @$('.photo-toolbar__btns').toggleClass 'photo-toolbar__btns--hidden', @_isManaging
     @$('.photo-list').toggleClass 'photo-list--batch-management', @_isManaging
+
+  onBatchDelete: ->
+    modelsChosen = @collection.filter (model)->
+      return model.isChosen
+
+    @collection.remove modelsChosen
 
 module.exports = AlbumDetailView
