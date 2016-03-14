@@ -109,7 +109,13 @@
 
 .photo-list--batch-management {
   .photo-item__action {
-    display: none;
+    display: none !important;
+  }
+
+  .photo-item__title {
+    .glyphicon {
+      display: none !important;
+    }
   }
 
   .photo-item__cover--chosen {
