@@ -4,6 +4,8 @@ Marionette = require 'marionette'
 PhotoView = require './photo/photo-view'
 _ = require 'underscore'
 
+UploadPhotoDialog = require './upload-photo-dialog'
+
 class AlbumDetailView extends Marionette.CompositeView.extend()
   template: swig.compile require './album-detail'
   childView: PhotoView
@@ -11,6 +13,7 @@ class AlbumDetailView extends Marionette.CompositeView.extend()
   events:
     'click .js-manage-batch': 'onManageBatchBtnClick'
     'click .js-batch-delete': 'onBatchDelete'
+    'click .js-create-upload-dialog': 'showuploadDialog'
 
   onManageBatchBtnClick: (e)->
     manageTextMap = {
@@ -29,5 +32,10 @@ class AlbumDetailView extends Marionette.CompositeView.extend()
       return model.isChosen
 
     @collection.remove modelsChosen
+
+  showuploadDialog: ->
+    dialog = new UploadPhotoDialog
+      model: @model.clone()
+    dialog.show()
 
 module.exports = AlbumDetailView
