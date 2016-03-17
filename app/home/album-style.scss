@@ -1,3 +1,13 @@
 .album-toolbar {
   margin-bottom: 20px;
 }
+
+.album-toolbar__search {
+  height: 34px;
+  border: none;
+  border-radius: 20px;
+  padding: 0px 10px;
+  &:focus {
+    outline: none;
+  }
+}

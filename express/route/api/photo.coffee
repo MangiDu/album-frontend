@@ -1,4 +1,5 @@
 Photo = require '../../models/photo'
+_ = require 'underscore'
 
 module.exports = (router)->
   return unless router
@@ -9,10 +10,11 @@ module.exports = (router)->
     )
 
   router.put '/photo/:id', (req, res, next)->
-    data = {
-      title: req.body.title
-      description: req.body.decription
-    }
+    # data = {
+    #   title: req.body.title
+    #   description: req.body.decription
+    # }
+    data = _.pick req.body, 'title', 'description', 'album'
     Photo.findOneAndUpdate({_id: req.params.id}, data, {new: true}, (err, doc)->
       res.send doc
     )

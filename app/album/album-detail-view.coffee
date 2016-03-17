@@ -13,7 +13,19 @@ class AlbumDetailView extends Marionette.CompositeView.extend()
   events:
     'click .js-manage-batch': 'onManageBatchBtnClick'
     'click .js-batch-delete': 'onBatchDelete'
+    'click .js-batch-move-to': 'onBatchMoveTo'
     'click .js-create-upload-dialog': 'showuploadDialog'
+
+  onRender: ->
+    return unless @model
+    me = @
+    $.ajax
+      url: '/album-brief'
+      method: 'GET'
+      success: (data)->
+        data.forEach (item)->
+          if item._id != me.model.id
+            me.$('.other-album-list').append "<li><a class='js-batch-move-to' data-moveto='#{item._id}'>#{item.title}</a></li>"
 
   onManageBatchBtnClick: (e)->
     manageTextMap = {
@@ -32,6 +44,16 @@ class AlbumDetailView extends Marionette.CompositeView.extend()
       return model.isChosen
 
     @collection.remove modelsChosen
+
+  onBatchMoveTo: (e)->
+    $target = $ e.currentTarget
+    targetAlbumId = $target.data 'moveto'
+    modelsChosen = @collection.filter (model)->
+      return model.isChosen
+    console.log "move to #{targetAlbumId}"
+    modelsChosen.forEach (model)->
+      debugger
+      model.trigger 'moveto', targetAlbumId
 
   showuploadDialog: ->
     dialog = new UploadPhotoDialog

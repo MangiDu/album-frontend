@@ -115,6 +115,7 @@ gulp.task('copy:express', ['clean:express'], function(){
 // combination tasks
 // TODO:development or production env
 // TODO:watch tasks still need optimization
+// TODO:error resolve instead of jumping out
 gulp.task('compile', [
   'compile:js',
   'compile:css'

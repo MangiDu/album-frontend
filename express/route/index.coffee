@@ -11,6 +11,7 @@ require('./userAuthority') router
 require('./api/user') router
 require('./api/album') router
 require('./api/photo') router
+require('./api/search') router
 # 上传照片
 require('./support-fineupload')(router)
 

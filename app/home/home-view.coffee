@@ -8,6 +8,8 @@ AlbumItemView = require './album/album-item-view'
 UploadDialogView = require './upload-dialog/upload-dialog-view'
 AlbumtDialogView = require './create-album/create-album-view'
 
+Util = require '../util/util'
+
 class HomeView extends Marionette.CompositeView.extend()
   # TODO: BaseDialogView
   template: swig.compile require './home'
@@ -17,6 +19,7 @@ class HomeView extends Marionette.CompositeView.extend()
     'click .action-trigger': 'actionHandler'
     'click .js-create-upload-dialog': 'showUploadDialog'
     'click .js-create-album-dialog': 'showAlbumDialog'
+    'keyup .js-photo-search': 'searchPhoto'
 
   serializeData: ->
     data = {}
@@ -48,5 +51,10 @@ class HomeView extends Marionette.CompositeView.extend()
 
   actionHandler: (e)->
     $target = $ e.currentTarget
+
+  searchPhoto: (e)->
+    if e.currentTarget.value && e.keyCode == 13
+      console.log e.currentTarget.value
+      Util.redirectTo "/search?title=#{e.currentTarget.value}"
 
 module.exports = HomeView
