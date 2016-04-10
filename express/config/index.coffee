@@ -26,6 +26,7 @@ module.exports = (app)->
   app.use('/photo-storage', express.static('./photo-storage'))
   app.use('/app', express.static('./app-build'))
   app.use('/', express.static('./public'))
+  app.use('/vendors', express.static('./vendors'))
 
   passport.use new LocalStrategy(Account.authenticate())
   passport.serializeUser Account.serializeUser()
